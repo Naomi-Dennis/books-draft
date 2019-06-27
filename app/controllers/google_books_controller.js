@@ -15,7 +15,11 @@ module.exports = {
 	 console.log("ACCESS TOKEN", access_token);
 	global.session = access_token
 	res.redirect("/")
-   }
+   },
+
+  query_book: (req, res) => {
+	res.redirect("/")
+  }
  }//end module
 
 function is_logged_in(){

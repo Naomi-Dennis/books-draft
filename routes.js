@@ -16,16 +16,20 @@ let app = express();
 app.set('view engine', 'ejs'); 
 app.set('views', './app/views'); 
 
+global.session = "NOT SET"
 
 /*
  * Initialize Controllers
  * */
-let google_books_controller = require('./app/controllers/google_books')
+let google_books_controller = require('./app/controllers/google_books_controller')
+
 
 /*
  * List Routes
- */ 
+ */
+app.use('/', google_books_controller.index_logic); 
 app.get('/', google_books_controller.index); 
+app.get('/auth', google_books_controller.create_user); 
 
 
 

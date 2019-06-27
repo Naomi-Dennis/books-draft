@@ -11,8 +11,8 @@ module.exports = {
  },
  create_user: (req, res) => {
 	 console.log("REQUEST", req);
-	 console.log("RESPONSE", res); 
 	access_token = req.query.access_token
+	 console.log("ACCESS TOKEN", access_token);
 	global.session = access_token
 	res.redirect("/")
    }

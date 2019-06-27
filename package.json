@@ -4,7 +4,8 @@
   "description": "",
   "main": "routes.js",
   "scripts": {
-    "start": "node --harmony routes.js"
+    "start": "node --harmony routes.js",
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,7 @@
   },
   "homepage": "https://github.com/Naomi-Dennis/books-draft#readme",
   "dependencies": {
+    "axios": "^0.19.0",
     "ejs": "^2.6.2",
     "express": "^4.17.1"
   },

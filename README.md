@@ -6,7 +6,7 @@ Please follow the instructions below, to run a local version of Simplicity.
 
 ### Or 
 
-Run the live version (here)[https://stark-wave-13030.herokuapp.com/]
+Run the live version [here](https://stark-wave-13030.herokuapp.com/)
 
 ## Prerequisites
 

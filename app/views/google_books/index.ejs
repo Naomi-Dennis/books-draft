@@ -4,12 +4,15 @@
 <div style="text-align:center">
 
     <h2>Book Search Form</h2>
-    
-    <form action="/query_book", method="POST">
-       <input name="book_title" size="50" placeholder="Book Title" required>
+    <div style="width:80%;margin: 0 auto">
+    <form action="/query_book", method="POST" style="text-align:left">
+       <input name="book_title" size="50" placeholder="Title" required>
+       <br/><br/>
+       <input name="book_author" size="30" placeholder="Author" required>
+       <br/><br/>
        <input type='submit'>
       </form>
-
+	</div>
 </div>
 
 

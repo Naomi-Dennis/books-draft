@@ -7,12 +7,14 @@ module.exports = {
       res.render('layout', {view_path: 'google_books/index', is_logged_in: is_logged_in() });
  },
  index_logic: (req, res, next) =>{
+	 console.log("REQUEST\n", req);
+	 console.log("RESPONSE\n", res);
 	 next(); 
  },
  create_user: (req, res) => {
-	 console.log("REQUEST", req);
-	access_token = req.query.access_token
-	 console.log("ACCESS TOKEN", access_token);
+	//access_token = req.params
+	 console.log("CREATE USER REQUEST", req);
+	 console.log("CREATE USER RESPONSE", res);
 	global.session = access_token
 	res.redirect("/")
    },
@@ -23,6 +25,6 @@ module.exports = {
  }//end module
 
 function is_logged_in(){
- return (global.session != "NOT SET")
+ return (global.session != "NOT SET" && global.session != {} && global.session != "")
 }
 

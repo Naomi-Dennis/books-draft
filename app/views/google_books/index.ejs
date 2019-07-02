@@ -1,18 +1,69 @@
+<style>
+	#searched-results{
+		text-align: left; 
+	}
+	#book-cover{
+		width:200px; 
+		height: 250px; 
+		display: block;
+		margin-bottom: 30px;
+		margin-top: 30px; 
+		margin: 0 auto;
+	}
+	body{
+		margin: 0 auto;
+		width: 80%; 
+	}
+	input[type='submit']{
+		margin-bottom: 20px; 
+	}
+</style>
 <h1> Simplicity Book Reader</h1>
 
 
 <div style="text-align:center">
-
+	
+	<img src="https://www.adazing.com/wp-content/uploads/2019/02/open-book-clipart-03.png" width="200px" height="150px">
     <h2>Book Search Form</h2>
-    <div style="width:80%;margin: 0 auto">
-    <form action="/query_book", method="POST" style="text-align:left">
+    <div>
+    <form action="/query_book", method="GET">
        <input name="book_title" size="50" placeholder="Title" required>
        <br/><br/>
        <input name="book_author" size="30" placeholder="Author" required>
        <br/><br/>
-       <input type='submit'>
+       <input type='submit' value="Find Books">
       </form>
 	</div>
+
+   <hr/ >
+
+   <% if( searched_books.length <= 0){ %>
+          
+   <% }else{ %>
+      <h2>Books Found</h2> 
+      <br/>
+      <ul id="searched-results">
+        <% for(let i = 0; i < searched_books.length; i++){ %>
+		<h3 style="text-align:center"><%= searched_books[i].volumeInfo.title %></h3>
+
+	    <img id='book-cover' src="<%= searched_books[i].volumeInfo.imageLinks.smallThumbnail %>" width="100px" height="150px" alt="Cover of <%= searched_books[i].volumeInfo.title %>" title="<%= searched_books[i].volumeInfo.title %>">
+	    <ul>
+	    <li>Written By:</li>
+	    <ul>
+		<% for(let a = 0; a < searched_books[i].volumeInfo.authors.length; a++){ %> 
+		  <li><%= searched_books[i].volumeInfo.authors[a] %> </li>
+		<% } %> 
+		</ul>
+		<li>Published By: <%= searched_books[i].volumeInfo.publisher %></li>
+		<li><a target="_blank" href="<%= searched_books[i].volumeInfo.infoLink%>">More Information</a></li>
+		<li><%= searched_books[i].volumeInfo.description %></li>
+		</ul>
+	    </li>
+	    <br/>
+	<% } %>
+
+      </ul>
+   <% } %>
 </div>
 
 

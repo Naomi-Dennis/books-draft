@@ -1,30 +1,35 @@
 /* 
  * Google Books Controller
  * */
-
+const axios = require('axios'); 
 module.exports = {
    index: (req, res) => {
       if(!is_logged_in()){
 	url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${options.client_id}&response_type=code&scope=${options.scope}&redirect_uri=${options.redirect_uri}`;
 	res.redirect(url)
       }
-      else{ 
-	res.render('layout', {view_path: 'google_books/index'}); 
+      else{
+	res.render('layout', {view_path: 'google_books/index', searched_books: module.exports.searched_books}); 
       }
  },
- index_logic: (req, res, next) =>{
-	 next(); 
- },
- create_user: (req, res) => {
-	access_token = res.query.code
-	global.session = access_token
-	res.redirect("/")
-   },
-
   query_book: (req, res) => {
-	res.redirect("/")
-  }
+	searched_books = []
+	data = req.query
+	title = data.book_title.replace(/ /g, '-')
+	author = data.book_author.replace(/ /g, '-')
+	console.log("Title", title)
+	console.log("Author", author);
+	search_url = `https://www.googleapis.com/books/v1/volumes?q=intitle:${title}&inauthor:${author}` 
+	axios.get(search_url).then( (response) => {
+		module.exports.searched_books = response.data.items;
+			console.log(module.exports.searched_books)
+		res.redirect("/")
+	}
+	).catch( (error) => { console.log(error);  } )
+  },
+searched_books: [] 
  }//end module
+
 
 function is_logged_in(){
  return (global.session != "NOT SET" && global.session != {} && global.session != "")

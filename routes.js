@@ -9,7 +9,7 @@
  * */
 let express = require('express');
 let app = express();
-
+const bodyParser = require('body-parser');
 /*
  * Configure template engine 
  * */
@@ -17,6 +17,9 @@ app.set('view engine', 'ejs');
 app.set('views', './app/views'); 
 
 global.session = "NOT SET"
+app.use(bodyParser.urlencoded());
+app.use(bodyParser.json());
+app.use(express.urlencoded())
 
 /*
  * Initialize Controllers
@@ -27,11 +30,10 @@ let session_controller = require('./app/controllers/session_controller.js');
 /*
  * List Routes
  */
-app.use('/', google_books_controller.index_logic); 
 app.get('/', google_books_controller.index); 
 app.get('/auth', session_controller.process_code); 
-app.post("/query_book", google_books_controller.query_book);
-
+app.get("/query_book", google_books_controller.query_book);
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
 

@@ -11,7 +11,7 @@ module.exports = {
       axios.post("https://www.googleapis.com/oauth2/v4/token", {
 	client_id: options.client_id,
 	client_secret: options.client_secret,
-	redirect_uri: "http://localhost:3000/auth",
+	redirect_uri: heroku_domain,
 	code: access_code,
 	grant_type: "authorization_code"
       }).then( module.exports.get_authorization_code ).catch( module.exports.display_error );
@@ -28,7 +28,7 @@ module.exports = {
    }
 }
 
-let test_domain = "http://localhost:3000/"
+let test_domain = "http://localhost:3000/auth"
 let heroku_domain = "https://stark-wave-13030.herokuapp.com/auth" 
 let options = {
 	client_secret: "7h0r3G1m-JITodmlYl2Fj5YV",

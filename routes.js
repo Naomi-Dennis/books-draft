@@ -21,15 +21,15 @@ global.session = "NOT SET"
 /*
  * Initialize Controllers
  * */
-let google_books_controller = require('./app/controllers/google_books_controller')
-
+let google_books_controller = require('./app/controllers/google_books_controller');
+let session_controller = require('./app/controllers/session_controller.js'); 
 
 /*
  * List Routes
  */
 app.use('/', google_books_controller.index_logic); 
 app.get('/', google_books_controller.index); 
-app.get('/auth', google_books_controller.create_user); 
+app.get('/auth', session_controller.process_code); 
 app.post("/query_book", google_books_controller.query_book);
 
 

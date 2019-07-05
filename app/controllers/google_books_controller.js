@@ -13,7 +13,6 @@ module.exports = {
 		view_path: "google_books/index",
 		searched_books: module.exports.searched_books
 	}
-	console.log( "selected books", module.exports.searched_books.length )	
 	res.render('layout', view_params); 
       }
  },
@@ -24,9 +23,6 @@ module.exports = {
 	title =  (data.book_title || "") 
 	author = (data.book_author || "") 
 
-	console.log("Title", title)
-	console.log("Author", author);	
-
 	query = ""
 	query_params = []
 	query_params.push(validate_query(title, "title"))
@@ -35,14 +31,12 @@ module.exports = {
 	query = query.length > 0 ? `${query}&maxResults=40` : query
 	console.log("Query", query)
 		search_url = `https://www.googleapis.com/books/v1/volumes?q=${query}`
-		console.log(search_url)
 		axios.get(search_url)
 		.then( (response) => {
 				module.exports.searched_books = response.data.items || [];
-				console.log( "selected books", module.exports.searched_books.length )
 				res.redirect("/")
 		}).catch((error) => { 
-			console.log("Error", error.message)
+			console.log(`*******Book query error encountered***********\n${error.message}\nRefreshing Page...`)
 			res.redirect("/")
 		})
   },

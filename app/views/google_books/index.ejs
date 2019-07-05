@@ -27,9 +27,9 @@
     <h2>Book Search Form</h2>
     <div>
     <form action="/query_book", method="GET">
-       <input name="book_title" size="50" placeholder="Title" required>
+       <input name="book_title" size="50" placeholder="Title" >
        <br/><br/>
-       <input name="book_author" size="30" placeholder="Author" required>
+       <input name="book_author" size="30" placeholder="Author">
        <br/><br/>
        <input type='submit' value="Find Books">
       </form>
@@ -38,25 +38,31 @@
    <hr/ >
 
    <% if( searched_books.length <= 0){ %>
-          
+	<h2>No Books Found</h2>         
    <% }else{ %>
       <h2>Books Found</h2> 
       <br/>
       <ul id="searched-results">
         <% for(let i = 0; i < searched_books.length; i++){ %>
-		<h3 style="text-align:center"><%= searched_books[i].volumeInfo.title %></h3>
-
-	    <img id='book-cover' src="<%= searched_books[i].volumeInfo.imageLinks.smallThumbnail %>" width="100px" height="150px" alt="Cover of <%= searched_books[i].volumeInfo.title %>" title="<%= searched_books[i].volumeInfo.title %>">
+		<h3 style="text-align:center"><%= `${i + 1}. ${searched_books[i].volumeInfo.title}` %></h3>
+		<% if( searched_books[i].volumeInfo.hasOwnProperty("imageLinks")){ %>
+	    <img id='book-cover' src="<%= searched_books[i].volumeInfo.imageLinks.thumbnail %>" width="100px" height="150px" alt="Cover of <%= searched_books[i].volumeInfo.title %>" title="<%= searched_books[i].volumeInfo.title %>">
+	    	<% } %>
 	    <ul>
 	    <li>Written By:</li>
 	    <ul>
-		<% for(let a = 0; a < searched_books[i].volumeInfo.authors.length; a++){ %> 
-		  <li><%= searched_books[i].volumeInfo.authors[a] %> </li>
-		<% } %> 
-		</ul>
-		<li>Published By: <%= searched_books[i].volumeInfo.publisher %></li>
-		<li><a target="_blank" href="<%= searched_books[i].volumeInfo.infoLink%>">More Information</a></li>
-		<li><%= searched_books[i].volumeInfo.description %></li>
+	    	<% if(searched_books[i].volumeInfo.authors){ %>
+			<% for(let a = 0; a < searched_books[i].volumeInfo.authors.length; a++){ %> 
+			  <li><%= searched_books[i].volumeInfo.authors[a] %> </li>
+			<% } %>
+		<% }else{ %>
+			<li>No Authors Found</li>
+		<% } %>	
+			</ul>
+			<li><%= (searched_books[i].volumeInfo.publisher) ? `Published by: ${searched_books[i].volumeInfo.publisher}`
+			         : "Publishing Data Not Found" %></li>
+			<li><a target="_blank" href="<%= searched_books[i].volumeInfo.infoLink%>">More Information</a></li>
+			<li><%= searched_books[i].volumeInfo.description || "No Description Found" %></li>
 		</ul>
 	    </li>
 	    <br/>

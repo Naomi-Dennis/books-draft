@@ -9,7 +9,7 @@ module.exports = {
       axios.post("https://www.googleapis.com/oauth2/v4/token", {
 	client_id: options.client_id,
 	client_secret: options.client_secret,
-	redirect_uri: test_domain,
+	redirect_uri: heroku_domain,
 	code: access_code,
 	grant_type: "authorization_code"
       }).then( module.exports.get_authorization_code ).catch( module.exports.display_error );
@@ -30,6 +30,7 @@ let options = {
 	client_secret: "7h0r3G1m-JITodmlYl2Fj5YV",
 	client_id: "73107975855-dapdgln79j62ovmt1kf2ootsv5rb9mhf.apps.googleusercontent.com",
 	scope: "email",
-	redirect_uri: test_domain
+	redirect_uri: heroku_domain
+
 }
 

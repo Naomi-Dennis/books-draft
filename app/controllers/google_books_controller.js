@@ -75,7 +75,7 @@ module.exports = {
 let test_domain = "http://localhost:3000/auth"
 let heroku_domain = "https://stark-wave-13030.herokuapp.com/auth" 
 
-let current_domain = test_domain
+let current_domain = heroku_domain
 let searched_books = []
 let search_title = "Books Found"
 let current_page = 0;

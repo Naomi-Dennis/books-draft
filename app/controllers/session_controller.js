@@ -28,7 +28,7 @@ module.exports = {
 
 let test_domain = "http://localhost:3000/auth"
 let heroku_domain = "https://stark-wave-13030.herokuapp.com/auth" 
-let current_domain = test_domain
+let current_domain = heroku_domain
 let options = {
 	client_secret: "7h0r3G1m-JITodmlYl2Fj5YV",
 	client_id: "73107975855-dapdgln79j62ovmt1kf2ootsv5rb9mhf.apps.googleusercontent.com",

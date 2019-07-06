@@ -8,11 +8,22 @@ module.exports = {
 		view_path: "google_books/index",
 		searched_books: searched_books,
 		logged_in: is_logged_in(),
-		search_title: search_title
+		search_title: search_title,
+		show_next_page: total_results > max_results,
+		show_prev_page: current_page > 0,
+		total_results: total_results
 	}
-	   
 	res.render('layout', view_params); 
  },
+  next_search_page: (req, res) =>{
+	current_page += 1; 
+	book_query(res, current_url, search_title);
+  },
+  prev_search_page: (req, res) => {
+	current_page -= 1;
+	current_page = current_page < 0 ? 0 : current_page
+	book_query(res, current_url, search_title);
+  },
   search: (req, res) => {
 	data = req.query
 	regex_test = /[A-z0-9']/g
@@ -24,7 +35,7 @@ module.exports = {
 	query_params.push(validate_query(title, "title"))
 	query_params.push(validate_query(author, "author"))
         query = query_params.filter(String).join("&")
-	query = query.length > 0 ? `${query}&maxResults=40` : query
+	query = query.length > 0 ? `${query}&maxResults=${max_results}` : query
 	search_url = `https://www.googleapis.com/books/v1/volumes?q=${query}`
 	book_query(res, search_url, "Search Results")
   },
@@ -60,8 +71,27 @@ module.exports = {
   }
  }//end module
 
+
+let test_domain = "http://localhost:3000/auth"
+let heroku_domain = "https://stark-wave-13030.herokuapp.com/auth" 
+
+let current_domain = test_domain
+let searched_books = []
+let search_title = "Books Found"
+let current_page = 0;
+let max_results = 40
+let total_results = 0; 
+let options = {
+	client_secret: "7h0r3G1m-JITodmlYl2Fj5YV",
+	client_id: "73107975855-dapdgln79j62ovmt1kf2ootsv5rb9mhf.apps.googleusercontent.com",
+	scope: "https://www.googleapis.com/auth/books",
+	redirect_uri: current_domain,
+	options: "AIzaSyBJNEhU1p_I5a2Mlcm91DF6GiGUycd-oeI"
+}
+
+
 function get_user_book_type(mode){
-	return `https://www.googleapis.com/books/v1/mylibrary/bookshelves/${mode}/volumes?access_token=${global.session}&key=${options.api_key}`
+	return `https://www.googleapis.com/books/v1/mylibrary/bookshelves/${mode}/volumes?access_token=${global.session}&key=${options.api_key}&maxResults=${max_results}`
 }
 
 function validate_query( metric, key ){
@@ -72,27 +102,19 @@ function is_logged_in(){
  return (global.session != "NOT SET" && global.session != {} && global.session != "")
 }
 function book_query(res, url, query_name){
-   axios.get(url)
+   query = `${url}&startIndex=${current_page}`
+	console.log(query)
+   axios.get(query)
    .then( (response) => {
 	searched_books = response.data.items || [];
 	search_title = query_name
+	total_results = Number( response.data.totalItems )
+	current_url = url
 	res.redirect("/")
    }).catch((error) => { 
  	console.log(`*******${query_name} error encountered***********\n${error.message}\nRefreshing Page...`)
 	searched_books = []
 	res.redirect("/")
    });
+   return url 
 }
-let test_domain = "http://localhost:3000/auth"
-let heroku_domain = "https://stark-wave-13030.herokuapp.com/auth" 
-let current_domain = test_domain
-let searched_books = []
-let search_title = "Books Found"
-let options = {
-	client_secret: "7h0r3G1m-JITodmlYl2Fj5YV",
-	client_id: "73107975855-dapdgln79j62ovmt1kf2ootsv5rb9mhf.apps.googleusercontent.com",
-	scope: "https://www.googleapis.com/auth/books",
-	redirect_uri: current_domain,
-	options: "AIzaSyBJNEhU1p_I5a2Mlcm91DF6GiGUycd-oeI"
-}
-

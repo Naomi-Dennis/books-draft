@@ -42,6 +42,8 @@ app.get("/reading_list", google_books_controller.reading_list);
 app.get("/have_read", google_books_controller.have_read);
 app.get("/recently_viewed", google_books_controller.recently_viewed);
 app.get("/purchased", google_books_controller.purchased);
+app.get("/next_search_page", google_books_controller.next_search_page);
+app.get("/prev_search_page", google_books_controller.prev_search_page); 
 app.use(bodyParser.urlencoded({ extended: true }));
 
 

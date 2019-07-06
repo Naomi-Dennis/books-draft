@@ -29,9 +29,26 @@ module.exports = {
 	book_query(res, search_url, "Search Results")
   },
   user_ebooks: (req, res) => {
-	url = `https://www.googleapis.com/books/v1/mylibrary/bookshelves/7/volumes?access_token=${global.session}&key=${options.api_key}`
-	book_query(res, url, "Your E-Books") 
-  }, 
+	book_query(res, get_user_book_type(7), "Your E-Books") 
+  },
+  favorites: (req, res) => {
+	book_query(res, get_user_book_type(0), "Your Favorite Books") 
+  },
+  reading_now: (req, res) => {
+	book_query(res, get_user_book_type(3), "Here's What Your Reading Now") 
+  },
+  reading_list: (req, res) => {
+	book_query(res, get_user_book_type(2), "Your Reading List") 
+  },
+  have_read: (req, res) => {
+	book_query(res, get_user_book_type(4), "Books You've Read") 
+  },
+  recently_viewed: (req, res) => {
+	book_query(res, get_user_book_type(6), "Recently Viewed Books") 
+  },
+  purchased: (req, res) => {
+	book_query(res, get_user_book_type(1), "Purchased Books") 
+  },
   signout: (req, res) => {
 	global.session = "NOT SET"
 	searched_books = []
@@ -42,6 +59,10 @@ module.exports = {
 		res.redirect(url)
   }
  }//end module
+
+function get_user_book_type(mode){
+	return `https://www.googleapis.com/books/v1/mylibrary/bookshelves/${mode}/volumes?access_token=${global.session}&key=${options.api_key}`
+}
 
 function validate_query( metric, key ){
   return metric.length > 0 ? `in${key}:${metric.replace(/ /g, '-')}` : ""

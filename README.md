@@ -1,7 +1,5 @@
 # Simplicity Book Reader 
 
-![alt text](https://i.ibb.co/b6TxxBy/ezgif-com-resize.gif)
-
 
 ## Getting Started 
 

@@ -45,18 +45,18 @@ describe("Configuration Module", () => {
 		});
 	});
 
-});
+	describe("Global context", () => {
+		it(" the global object has config property" ,() => {
+		   assert.equal(global.hasOwnProperty("config"), true, "global object doesn't have config property" )
+		});
 
-describe("Config module in global object", () => {
-	it(" the global object has config property" ,() => {
-	   assert.equal(global.hasOwnProperty("config"), true, "global object doesn't have config property" )
+		it(" the global object config property is set to config object", () => {
+			assert.equal( global.config == config, true, "global object config property isn't a config object"); 
+		});
 	});
 
-	it(" the global object config property is set to config object", () => {
-		assert.equal( global.config == config, true, "global object config property isn't a config object"); 
-	});
-});
 
+});
 function has_property_and_is_not_null_string(property){
 	assert.equal( config.hasOwnProperty(property), true, `${property} not found in config module`);
 	assert.equal( typeof(config[property]), "string", `${property} not a string`);

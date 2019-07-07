@@ -71,27 +71,15 @@ module.exports = {
   }
  }//end module
 
-
-let test_domain = "http://localhost:3000/auth"
-let heroku_domain = "https://stark-wave-13030.herokuapp.com/auth" 
-
-let current_domain = heroku_domain
 let searched_books = []
 let search_title = "Books Found"
 let current_page = 0;
 let max_results = 40
 let total_results = 0; 
-let options = {
-	client_secret: "7h0r3G1m-JITodmlYl2Fj5YV",
-	client_id: "73107975855-dapdgln79j62ovmt1kf2ootsv5rb9mhf.apps.googleusercontent.com",
-	scope: "https://www.googleapis.com/auth/books",
-	redirect_uri: current_domain,
-	options: "AIzaSyBJNEhU1p_I5a2Mlcm91DF6GiGUycd-oeI"
-}
 
 
 function get_user_book_type(mode){
-	return `https://www.googleapis.com/books/v1/mylibrary/bookshelves/${mode}/volumes?access_token=${global.session}&key=${options.api_key}&maxResults=${max_results}`
+	return `https://www.googleapis.com/books/v1/mylibrary/bookshelves/${mode}/volumes?access_token=${global.session}&key=${global.config.api_key}&maxResults=${max_results}`
 }
 
 function validate_query( metric, key ){

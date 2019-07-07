@@ -12,7 +12,7 @@ let app = express();
 const bodyParser = require('body-parser');
 global.config = require("./config.js"); 
 global.config.set_to_test_mode();
-global.session =  "NOT SET"
+global.session =  require('./app/helpers/session_helper.js'); 
 /*
  * Configure template engine 
  * */
@@ -26,7 +26,7 @@ app.use(express.urlencoded())
 /*
  * Initialize Controllers
  * */
-let google_books_controller = require('./app/controllers/google_books_controller');
+let google_books_controller = require('./app/controllers/google_books_controller.js');
 let session_controller = require('./app/controllers/session_controller.js'); 
 
 /*
@@ -36,7 +36,7 @@ app.get('/', google_books_controller.index);
 app.get('/auth', session_controller.process_code); 
 app.get("/query_book", google_books_controller.search);
 app.get("/signout", google_books_controller.signout);
-app.get("/signin", google_books_controller.signin);
+app.get("/signin", session_controller.signin);
 app.get("/ebooks", google_books_controller.user_ebooks);
 app.get("/favorites", google_books_controller.favorites);
 app.get("/reading_now", google_books_controller.reading_now); 

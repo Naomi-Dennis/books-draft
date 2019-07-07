@@ -21,19 +21,13 @@ module.exports = {
 	access_token = res.data.access_token
 	global.session = access_token
    },
+   signin: (req, res) => {
+		url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${global.config.client_id}&response_type=code&scope=${global.config.scope}&redirect_uri=${global.config.redirect_uri}`;
+		res.redirect(url)
+  },
    display_error: (error) => {
 	console.log(`*******Authentication error encountered***********\n${error.message}\nRefreshing Page...`)
    }
 }
 
-let test_domain = "http://localhost:3000/auth"
-let heroku_domain = "https://stark-wave-13030.herokuapp.com/auth" 
-let current_domain = heroku_domain
-let options = {
-	client_secret: "7h0r3G1m-JITodmlYl2Fj5YV",
-	client_id: "73107975855-dapdgln79j62ovmt1kf2ootsv5rb9mhf.apps.googleusercontent.com",
-	scope: "email",
-	redirect_uri: current_domain
-
-}
-
+let token = ""

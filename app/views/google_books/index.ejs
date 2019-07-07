@@ -19,12 +19,12 @@
 	    margin-top: 15px; 
 	}
 	img.book-cover{
-		width:120px; 
-		height: 150px; 
+		width:20%; 
+		height: 250px; 
 		display: inline-block;
 		margin-top: 30px; 
-		margin: 0 auto;
 		margin-bottom: 96px;
+		margin: 0 auto;
 	}
 	.book-info{
 	     width: 70%; 
@@ -38,6 +38,9 @@
 		margin-top: 30px; 
 		height: 300px;
 		margin: 0 auto; 
+	}
+	.book-div h3{
+		text-align: right; 
 	}
 </style>
 <div id="main">
@@ -93,7 +96,7 @@
 
 
 		<div class="book-div">
-			<h3 style="text-align:center"><%= searched_books[i].volumeInfo.title %></h3>
+			<h3><%= searched_books[i].volumeInfo.title %></h3>
 			<% if( searched_books[i].volumeInfo.hasOwnProperty("imageLinks")){ %>
 		    	<img class='book-cover' src="<%= searched_books[i].volumeInfo.imageLinks.thumbnail %>"  alt="Cover of <%= searched_books[i].volumeInfo.title %>" title="<%= searched_books[i].volumeInfo.title %>">
 			<% } %>

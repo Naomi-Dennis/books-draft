@@ -2,14 +2,6 @@
 	#searched-results{
 		text-align: left; 
 	}
-	#book-cover{
-		width:200px; 
-		height: 250px; 
-		display: block;
-		margin-bottom: 30px;
-		margin-top: 30px; 
-		margin: 0 auto;
-	}
 	div#main{
 		margin: 0 auto;
 		width: 80%; 
@@ -26,20 +18,47 @@
 	#nav ul li{
 	    margin-top: 15px; 
 	}
+	img.book-cover{
+		width:120px; 
+		height: 150px; 
+		display: inline-block;
+		margin-top: 30px; 
+		margin: 0 auto;
+		margin-bottom: 96px;
+	}
+	.book-info{
+	     width: 70%; 
+	     display:inline-block;
+	     height: 250px;
+	     overflow: hidden; 
+	     text-overflow: ellipsis;
+	}
+	.book-div{
+		width: 80%;
+		margin-top: 30px; 
+		height: 300px;
+		margin: 0 auto; 
+	}
 </style>
-<div id="nav">
+<div id="main">
+	<h1> Simplicity Book Reader</h1>
+	
+	<div id="nav">
 	<ul>
 		<% if( logged_in ){ %>
 			<li><a href="/signout">Sign Out</a></li>
-			<li><a href="/ebooks">E-Books</a></li>
+			<li><a href="/favorites">Favorites</a></li>
+			<li><a href="/ebooks">Ebooks</a></li>
+			<li><a href="/reading_now">Reading Now</a></li>
+			<li><a href="/reading_list">To Read List</a></li>
+			<li><a href="/have_read">Have Read</a></li>
+			<li><a href="/recently_viewed">Recently Viewed</a></li>
+			<li><a href="/purchased">Purchased</a></li>
 		<% }else{ %>
 			<li><a href="/signin">Sign In</a></li>
 		<% } %>
 	</ul>
 </div>
-<div id="main">
-	<h1> Simplicity Book Reader</h1>
-
 	<div style="text-align:center">
 		
 		<img src="https://www.adazing.com/wp-content/uploads/2019/02/open-book-clipart-03.png" width="200px" height="150px">
@@ -60,13 +79,25 @@
 		<h2>No Books Found</h2>         
 	   <% }else{ %>
 	      <h2><%= search_title %></h2> 
+	      <h4><%= `${total_results} Result(s) Found` %></h4>
 	      <br/>
+	      <% if( show_prev_page ){ %>
+	      	<a href="/prev_search_page" onClick="this.disabled=true;">Previous</a>
+	      <% } %>
+
+	      <% if( show_next_page ){ %>
+	      	<a href="/next_search_page" >Next</a>
+	      <% } %>
 	      <ul id="searched-results">
 		<% for(let i = 0; i < searched_books.length; i++){ %>
-			<h3 style="text-align:center"><%= `${i + 1}. ${searched_books[i].volumeInfo.title}` %></h3>
+
+
+		<div class="book-div">
+			<h3 style="text-align:center"><%= searched_books[i].volumeInfo.title %></h3>
 			<% if( searched_books[i].volumeInfo.hasOwnProperty("imageLinks")){ %>
-		    <img id='book-cover' src="<%= searched_books[i].volumeInfo.imageLinks.thumbnail %>" width="100px" height="150px" alt="Cover of <%= searched_books[i].volumeInfo.title %>" title="<%= searched_books[i].volumeInfo.title %>">
+		    	<img class='book-cover' src="<%= searched_books[i].volumeInfo.imageLinks.thumbnail %>"  alt="Cover of <%= searched_books[i].volumeInfo.title %>" title="<%= searched_books[i].volumeInfo.title %>">
 			<% } %>
+		    <div class="book-info">
 		    <ul>
 		    <li>Written By:</li>
 		    <ul>
@@ -82,12 +113,18 @@
 					 : "Publishing Data Not Found" %></li>
 				<li><a target="_blank" href="<%= searched_books[i].volumeInfo.infoLink%>">More Information</a></li>
 				<li><%= searched_books[i].volumeInfo.description || "No Description Found" %></li>
+
 			</ul>
 		    </li>
+		    </div>
 		    <br/>
-		<% } %>
 
+	      <div style="clear: both"></div>
+		</div>
+		<% } %>
 	      </ul>
+
+	      </div>
 	   <% } %>
 	</div>
 </div>

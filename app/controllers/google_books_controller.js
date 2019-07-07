@@ -7,7 +7,7 @@ module.exports = {
 	let view_params = {
 		view_path: "google_books/index",
 		searched_books: searched_books,
-		logged_in: is_logged_in(),
+		logged_in: global.session.is_logged_in(), 
 		search_title: search_title,
 		show_next_page: total_results > max_results,
 		show_prev_page: current_page > 0,
@@ -61,7 +61,7 @@ module.exports = {
 	book_query(res, get_user_book_type(1), "Purchased Books") 
   },
   signout: (req, res) => {
-	global.session = "NOT SET"
+	global.session.reset()
 	searched_books = []
 	res.redirect("/")
   },
@@ -79,16 +79,13 @@ let total_results = 0;
 
 
 function get_user_book_type(mode){
-	return `https://www.googleapis.com/books/v1/mylibrary/bookshelves/${mode}/volumes?access_token=${global.session}&key=${global.config.api_key}&maxResults=${max_results}`
+	return `https://www.googleapis.com/books/v1/mylibrary/bookshelves/${mode}/volumes?access_token=${global.session.get_token()}&key=${global.config.api_key}&maxResults=${max_results}`
 }
 
 function validate_query( metric, key ){
   return metric.length > 0 ? `in${key}:${metric.replace(/ /g, '-')}` : ""
 }
 
-function is_logged_in(){
- return (global.session != "NOT SET" && global.session != {} && global.session != "")
-}
 function book_query(res, url, query_name){
    query = `${url}&startIndex=${current_page}`
 	console.log(query)

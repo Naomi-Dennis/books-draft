@@ -21,7 +21,11 @@ describe("Configuration Module", () => {
 
 		it(" it has a vairable called redirect_uri that's a string", () => {
 			has_property_and_is_not_null_string("redirect_uri")
-		}); 
+		});
+
+		it(" it has a variable called api_key that's a string", () => {
+			has_property_and_is_not_null_string("api_key");
+		});
 	});
 
 	describe("Functions", () => {

@@ -10,13 +10,15 @@
 let express = require('express');
 let app = express();
 const bodyParser = require('body-parser');
+global.config = require("./config.js"); 
+global.config.set_to_test_mode();
+global.session =  "NOT SET"
 /*
  * Configure template engine 
  * */
 app.set('view engine', 'ejs'); 
 app.set('views', './app/views'); 
 
-global.session = "NOT SET"
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 app.use(express.urlencoded())

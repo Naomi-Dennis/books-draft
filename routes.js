@@ -32,7 +32,18 @@ let session_controller = require('./app/controllers/session_controller.js');
  */
 app.get('/', google_books_controller.index); 
 app.get('/auth', session_controller.process_code); 
-app.get("/query_book", google_books_controller.query_book);
+app.get("/query_book", google_books_controller.search);
+app.get("/signout", google_books_controller.signout);
+app.get("/signin", google_books_controller.signin);
+app.get("/ebooks", google_books_controller.user_ebooks);
+app.get("/favorites", google_books_controller.favorites);
+app.get("/reading_now", google_books_controller.reading_now); 
+app.get("/reading_list", google_books_controller.reading_list);
+app.get("/have_read", google_books_controller.have_read);
+app.get("/recently_viewed", google_books_controller.recently_viewed);
+app.get("/purchased", google_books_controller.purchased);
+app.get("/next_search_page", google_books_controller.next_search_page);
+app.get("/prev_search_page", google_books_controller.prev_search_page); 
 app.use(bodyParser.urlencoded({ extended: true }));
 
 

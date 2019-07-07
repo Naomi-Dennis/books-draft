@@ -7,9 +7,9 @@ module.exports = {
    process_code: (req, res) => {
       access_code = req.query.code
       axios.post("https://www.googleapis.com/oauth2/v4/token", {
-	client_id: options.client_id,
-	client_secret: options.client_secret,
-	redirect_uri: current_domain,
+	client_id: global.config.client_id,
+	client_secret: global.config.client_secret,
+	redirect_uri: global.config.redirect_uri,
 	code: access_code,
 	grant_type: "authorization_code"
       }).then( (data) => {

@@ -66,7 +66,7 @@ module.exports = {
 	res.redirect("/")
   },
   signin: (req, res) => {
-		url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${options.client_id}&response_type=code&scope=${options.scope}&redirect_uri=${options.redirect_uri}`;
+		url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${global.config.client_id}&response_type=code&scope=${global.config.scope}&redirect_uri=${global.config.redirect_uri}`;
 		res.redirect(url)
   }
  }//end module

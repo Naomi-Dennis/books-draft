@@ -17,7 +17,7 @@ module.exports = {
  },
   user_action: (req, res) => {
 	if( is_logged_in() ){
-	url = `https://www.googleapis.com/books/v1/mylibrary/bookshelves/2/addVolume?key=${global.config.apiKey}`
+	url = `https://www.googleapis.com/books/v1/mylibrary/bookshelves/2/addVolume?key=${global.config.api_key}`
 	axios.post(url)
 	}
 	res.redirect("/");

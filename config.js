@@ -3,6 +3,7 @@ module.exports = {
 	client_id: "73107975855-dapdgln79j62ovmt1kf2ootsv5rb9mhf.apps.googleusercontent.com",
 	scope: "https://www.googleapis.com/auth/books",
 	redirect_uri: "NOT SET",
+	api_key: "AIzaSyBJNEhU1p_I5a2Mlcm91DF6GiGUycd",
 	set_to_test_mode: () => {
 		module.exports.redirect_uri = "http://localhost:3000/auth"
 	},

@@ -41,35 +41,36 @@ module.exports = {
 	books_api.query(res, search_url, "Search Results")
   },
   user_ebooks: (req, res) => {
-	books_api.query(res, books_api.get_user_book_type(7), "Your E-Books") 
+	check_logged_in(res, () => { books_api.query(res, books_api.get_user_book_type(7), "Your E-Books")} )
+
   },
   favorites: (req, res) => {
-	books_api.query(res, books_api.get_user_book_type(0), "Your Favorite Books") 
+	check_logged_in(res, () => { books_api.query(res, books_api.get_user_book_type(0), "Your Favorite Books") } ) 
   },
   reading_now: (req, res) => {
-	books_api.query(res, books_api.get_user_book_type(3), "Here's What Your Reading Now") 
+	check_logged_in(res, () => { books_api.query(res, books_api.get_user_book_type(3), "Here's What Your Reading Now") }); 
   },
   reading_list: (req, res) => {
-	books_api.query(res, books_api.get_user_book_type(2), "Your Reading List") 
+	check_logged_in(res, () => { books_api.query(res, books_api.get_user_book_type(2), "Your Reading List") }); 
   },
   have_read: (req, res) => {
-	books_api.query(res, books_api.get_user_book_type(4), "Books You've Read") 
+	check_logged_in(res, () => {books_api.query(res, books_api.get_user_book_type(4), "Books You've Read") }); 
   },
   recently_viewed: (req, res) => {
-	books_api.query(res, books_api.get_user_book_type(6), "Recently Viewed Books") 
+	check_logged_in(res, () => {books_api.query(res, books_api.get_user_book_type(6), "Recently Viewed Books") }); 
   },
   purchased: (req, res) => {
-	books_api.query(res, books_api.get_user_book_type(1), "Purchased Books") 
-  },
-  signout: (req, res) => {
-	global.session.reset()
-	books_api.searched_books = []
-	res.redirect("/")
-  },
-  signin: (req, res) => {
-		url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${global.config.client_id}&response_type=code&scope=${global.config.scope}&redirect_uri=${global.config.redirect_uri}`;
-		res.redirect(url)
+	check_logged_in(res, () => {books_api.query(res, books_api.get_user_book_type(1), "Purchased Books") }); 
   }
  }//end module
 
 
+function check_logged_in(res, query_call){
+	if(global.session.is_logged_in()){
+		query_call()
+	}
+	else{
+	   books_api.searched_books = [] 
+	   res.redirect("/"); 
+	}
+}

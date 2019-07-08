@@ -40,37 +40,21 @@ module.exports = {
 	search_url = `https://www.googleapis.com/books/v1/volumes?q=${query}`
 	books_api.query(res, search_url, "Search Results")
   },
-  user_ebooks: (req, res) => {
-	check_logged_in(res, () => { books_api.query(res, books_api.get_user_book_type(7), "Your E-Books")} )
-
-  },
-  favorites: (req, res) => {
-	check_logged_in(res, () => { books_api.query(res, books_api.get_user_book_type(0), "Your Favorite Books") } ) 
-  },
-  reading_now: (req, res) => {
-	check_logged_in(res, () => { books_api.query(res, books_api.get_user_book_type(3), "Here's What Your Reading Now") }); 
-  },
-  reading_list: (req, res) => {
-	check_logged_in(res, () => { books_api.query(res, books_api.get_user_book_type(2), "Your Reading List") }); 
-  },
-  have_read: (req, res) => {
-	check_logged_in(res, () => {books_api.query(res, books_api.get_user_book_type(4), "Books You've Read") }); 
-  },
-  recently_viewed: (req, res) => {
-	check_logged_in(res, () => {books_api.query(res, books_api.get_user_book_type(6), "Recently Viewed Books") }); 
-  },
-  purchased: (req, res) => {
-	check_logged_in(res, () => {books_api.query(res, books_api.get_user_book_type(1), "Purchased Books") }); 
+  user_action: (req, res) => {
+	action_id = req.params.id 
+	bookshelf = req.query.bookshelf
+	check_logged_in(res, action_id, bookshelf)
   }
  }//end module
 
 
-function check_logged_in(res, query_call){
+function check_logged_in(res, user_action, query_name){
+	console.log("LOGIN CHECK",global.session.is_logged_in(), global.session.get_token() == "")
 	if(global.session.is_logged_in()){
-		query_call()
+		books_api.query(res, books_api.get_user_book_type(user_action), query_name) 
 	}
 	else{
-	   books_api.searched_books = [] 
+	   books_api.reset_page()
 	   res.redirect("/"); 
 	}
 }

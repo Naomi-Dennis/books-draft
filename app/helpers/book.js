@@ -8,6 +8,7 @@ class Book{
 		this.publisherDate = item.volumeInfo.publishedDate ? item.volumeInfo.publishedDate.split("-")[0] : "No Published Date Found"
 		this.description = item.searchInfo ? item.searchInfo.textSnippet : item.volumeInfo.description
 		this.image = item.volumeInfo.imageLinks.smallThumbnail || volumeInfo.imageLinks.thumbnail || "https://via.placeholder.com/600.png?text=Cover"
+		this.info_link = item.volumeInfo.infoLink
 	}
 }
 

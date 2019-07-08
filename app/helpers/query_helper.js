@@ -16,9 +16,11 @@ module.exports = {
 	   console.log(query)
 	   axios.get(query)
 	   .then( (response) => {
-		if(!return_searched_books){ 
+		if(!return_searched_books){
 			module.exports.searched_books = []
-			(response.data.items) ? module.exports.process_searched_books( response.data.items) : ""
+			if( response.data.items ) {
+				module.exports.process_searched_books( response.data.items )
+			}
 		}
 		else{
 			return response.data.items

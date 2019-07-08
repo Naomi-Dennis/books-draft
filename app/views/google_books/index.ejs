@@ -24,14 +24,14 @@
 		display: inline-block;
 		margin-top: 30px; 
 		margin-bottom: 96px;
-		margin: 0 auto;
+		float: left
 	}
 	.book-info{
 	     width: 70%; 
 	     display:inline-block;
 	     height: 250px;
 	     overflow: hidden; 
-	     text-overflow: ellipsis;
+	     text-align:left;
 	}
 	.book-div{
 		width: 80%;
@@ -39,29 +39,45 @@
 		height: 300px;
 		margin: 0 auto; 
 	}
-	.book-div h3{
-		text-align: right; 
+	.book-div h3,.book-div h4{
+		text-align: left; 
+	}
+	.user-action-buttons{
+		list-style: none; 
+	}
+	.user-action-buttons a{
+		margin-left: 10px; 
+	}
+	.detail-label{
+		font-weight: bold;
+	}
+	.book-info li{
+		list-style: none;
+	}
+	.book-info li:nth-child(n+1){
+		margin-top: 10px; 
 	}
 </style>
 <div id="main">
 	<h1> Simplicity Book Reader</h1>
 	
 	<div id="nav">
-	<ul>
-		<% if( logged_in ){ %>
-			<li><a href="/signout">Sign Out</a></li>
-			<li><a href="/favorites">Favorites</a></li>
-			<li><a href="/ebooks">Ebooks</a></li>
-			<li><a href="/reading_now">Reading Now</a></li>
-			<li><a href="/reading_list">To Read List</a></li>
-			<li><a href="/have_read">Have Read</a></li>
-			<li><a href="/recently_viewed">Recently Viewed</a></li>
-			<li><a href="/purchased">Purchased</a></li>
-		<% }else{ %>
-			<li><a href="/signin">Sign In</a></li>
-		<% } %>
-	</ul>
-</div>
+		<ul>
+			<% if( logged_in ){ %>
+				<li><a href="/signout">Sign Out</a></li>
+				<li><a href="/user_action/0?bookshelf=Your Favorite Books">Favorites</a></li>
+				<li><a href="/user_action/7?bookshelf=Your E-Books">Ebooks</a></li>
+				<li><a href="/user_action/3?bookshelf=Here's What You're Reading Now">Reading Now</a></li>
+				<li><a href="/user_action/2?bookshelf=You're Reading List">To Read List</a></li>
+				<li><a href="/user_action/4?bookshelf=Books You've Read">Have Read</a></li>
+				<li><a href="/user_action/6?booksehlf=Recently Viewed Books">Recently Viewed</a></li>
+				<li><a href="/user_action/1?Purchased Books">Purchased</a></li>
+				<li><a href="/user_action/5?Books You've Reviewed">Books Reviewed</a></li>
+			<% }else{ %>
+				<li><a href="/signin">Sign In</a></li>
+			<% } %>
+		</ul>
+	</div> <!-- End Nav -->
 	<div style="text-align:center">
 		
 		<img src="https://www.adazing.com/wp-content/uploads/2019/02/open-book-clipart-03.png" width="200px" height="150px">
@@ -74,7 +90,7 @@
 	       <br/><br/>
 	       <input type='submit' value="Find Books">
 	      </form>
-		</div>
+        </div> <!-- End Form --> 
 
 	   <hr/ >
 
@@ -84,50 +100,33 @@
 	      <h2><%= search_title %></h2> 
 	      <h4><%= `${total_results} Result(s) Found` %></h4>
 	      <br/>
+	      
+	      <!-- Next / Prev Buttons -->
 	      <% if( show_prev_page ){ %>
 	      	<a href="/prev_search_page" onClick="this.disabled=true;">Previous</a>
 	      <% } %>
-
 	      <% if( show_next_page ){ %>
 	      	<a href="/next_search_page" >Next</a>
 	      <% } %>
-	      <ul id="searched-results">
-		<% for(let i = 0; i < searched_books.length; i++){ %>
 
+	      <!-- Search Results --> 
+	      <div id="searched-results">
+	      	  <% searched_books.forEach( (book) => { %> 
+			<h3><%= book.title %></h3>
 
-		<div class="book-div">
-			<h3><%= searched_books[i].volumeInfo.title %></h3>
-			<% if( searched_books[i].volumeInfo.hasOwnProperty("imageLinks")){ %>
-		    	<img class='book-cover' src="<%= searched_books[i].volumeInfo.imageLinks.thumbnail %>"  alt="Cover of <%= searched_books[i].volumeInfo.title %>" title="<%= searched_books[i].volumeInfo.title %>">
-			<% } %>
-		    <div class="book-info">
-		    <ul>
-		    <li>Written By:</li>
-		    <ul>
-			<% if(searched_books[i].volumeInfo.authors){ %>
-				<% for(let a = 0; a < searched_books[i].volumeInfo.authors.length; a++){ %> 
-				  <li><%= searched_books[i].volumeInfo.authors[a] %> </li>
-				<% } %>
-			<% }else{ %>
-				<li>No Authors Found</li>
-			<% } %>	
-				</ul>
-				<li><%= (searched_books[i].volumeInfo.publisher) ? `Published by: ${searched_books[i].volumeInfo.publisher}`
-					 : "Publishing Data Not Found" %></li>
-				<li><a target="_blank" href="<%= searched_books[i].volumeInfo.infoLink%>">More Information</a></li>
-				<li><%= searched_books[i].volumeInfo.description || "No Description Found" %></li>
-
-			</ul>
-		    </li>
-		    </div>
-		    <br/>
-
-	      <div style="clear: both"></div>
-		</div>
-		<% } %>
-	      </ul>
-
+			<% if( book.subtitle.length > 0){ %>
+				<h4><%= book.subtitle%></h4>
+			<%} %><!-- End subtitle.length if statment -->
+			
+			<img class='book-cover' src=<%= book.image %> />
+			<ul class="book-info">
+				<li><span class="detail-label">Written By: </span><%= book.authors %></li>
+				<li><span class="detail-label">Year Published: </span><%= book.publisherDate %></li>
+				<li><span class="detail-label">Publisher: </span><%= book.publisher %></li>
+				<li><%= book.description %></li>
+			</ul><!-- end book info -->
+			<div style="clear:both"></div>
+		  <% }) %><!-- end items.forEach -->
 	      </div>
-	   <% } %>
-	</div>
-</div>
+	   <% } %><!-- end serached_books.length > 0 if statement -->
+</div><!-- end main div-->

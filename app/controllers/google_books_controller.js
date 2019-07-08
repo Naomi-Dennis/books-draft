@@ -14,6 +14,7 @@ module.exports = {
 		show_prev_page: books_api.current_page > 0,
 		total_results: books_api.total_results
 	}
+	   console.log("SEARCH TITLE", books_api.search_title)
 	res.render('layout', view_params); 
  },
   next_search_page: (req, res) =>{
@@ -45,6 +46,12 @@ module.exports = {
 	action_id = req.params.id 
 	bookshelf = req.query.bookshelf
 	check_logged_in(res, action_id, bookshelf)
+  },
+  add_to_bookshelf: (req, res) => {
+	action_id = req.params.id 
+	book = req.query.book
+	books_api.add_to_bookshelf(res, book, action_id) 
+
   }
  }//end module
 

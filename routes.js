@@ -40,6 +40,7 @@ app.get("/signin", session_controller.signin);
 app.get("/next_search_page", google_books_controller.next_search_page);
 app.get("/prev_search_page", google_books_controller.prev_search_page);
 app.get('/user_action/:id', google_books_controller.user_action);
+app.get("/add_to_bookshelf/:id", google_books_controller.add_to_bookshelf);
 app.use(bodyParser.urlencoded({ extended: true }));
 
 

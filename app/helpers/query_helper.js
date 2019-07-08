@@ -17,7 +17,7 @@ module.exports = {
 	   axios.get(query)
 	   .then( (response) => {
 		if(!return_searched_books){ 
-			module.exports.process_searched_books( response.data.items) ;
+			(response.data.items) ? module.exports.process_searched_books( response.data.items) : ""
 		}
 		else{
 			return response.data.items
@@ -36,6 +36,7 @@ module.exports = {
 	},
 	process_searched_books: (items ) => {
 		module.exports.searched_books = []
+		
 		if( items || items.length > 0){
 			items.forEach((item_element) => { 
 				module.exports.searched_books.push( new Book(item_element) );

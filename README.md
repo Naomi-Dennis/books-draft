@@ -42,11 +42,8 @@ In the root folder, use `npm test`
 
 ### Configuring to run in localhost 
 
-On line 31 in session_controller, change `current_domain` to `test_domain` 
-
-
-On line 78 in the google_books_controller, change `current_domain` to `test_domain` 
-
+In routes.js set global.config to test mode. 
+`global.config.set_to_test_mode()`
 ```
 let current_domain = test_domain
 ```

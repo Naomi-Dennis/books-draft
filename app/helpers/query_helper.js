@@ -37,6 +37,20 @@ module.exports = {
 		}
 	   });
 	},
+	add_to_bookshelf: (res, book, book_type) => {
+		url = `https://www.googleapis.com/books/v1/mylibrary/bookshelves/${book_type}/addVolume?volumeId=${book}&key=${global.config.api_key}&access_token=${global.session.get_token()}`
+		console.log(url); 
+		axios.post(url)
+		.then( (response) => {
+			console.log("Adding Book to Bookshelf:" + book_type, "Sucessful"); 
+			res.redirect("/");
+		})
+		.catch( (error) => {
+			console.log("Error adding to bookshelf: " + book_type, error.message)
+			res.redirect("/")
+		});
+
+	},
 	process_searched_books: (items ) => {
 		
 		if( items || items.length > 0){

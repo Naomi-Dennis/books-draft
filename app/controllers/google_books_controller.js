@@ -10,14 +10,15 @@ module.exports = {
 		searched_books: books_api.searched_books,
 		logged_in: global.session.is_logged_in(), 
 		search_title: books_api.search_title,
-		show_next_page: books_api.total_results > books_api.max_results,
+		show_next_page: books_api.current_page < Math.floor(books_api.total_results / books_api.max_results) && books_api.total_results > books_api.max_results,
 		show_prev_page: books_api.current_page > 0,
 		total_results: books_api.total_results
 	}
 	res.render('layout', view_params); 
  },
   next_search_page: (req, res) =>{
-	books_api.current_page += 1; 
+	books_api.current_page += 1;
+	console.log(books_api.current_page)
 	books_api.query(res, books_api.current_url, books_api.search_title);
   },
   prev_search_page: (req, res) => {

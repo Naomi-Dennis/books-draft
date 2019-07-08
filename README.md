@@ -44,9 +44,6 @@ In the root folder, use `npm test`
 
 In routes.js set global.config to test mode. 
 `global.config.set_to_test_mode()`
-```
-let current_domain = test_domain
-```
 
 In the root folder, use `npm start`
 

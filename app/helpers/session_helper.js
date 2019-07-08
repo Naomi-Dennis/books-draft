@@ -11,7 +11,7 @@ module.exports = {
 	   token = "NOT SET"
 	},
 	is_logged_in: () =>{
-		return token != "NOT SET"
+		return token != ("NOT SET" && "" && false && undefined);   
 	}
 }
 

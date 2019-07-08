@@ -35,18 +35,21 @@ module.exports = {
 	   });
 	},
 	process_searched_books: (items ) => {
-		console.log(items) 
-		items.forEach((item_element) => { 
-			module.exports.searched_books.push( new Book(item_element) );
-		});
-		console.log(module.exports.searched_books) 
+		module.exports.searched_books = []
+		if( items || items.length > 0){
+			items.forEach((item_element) => { 
+				module.exports.searched_books.push( new Book(item_element) );
+			});
+		}
+		else{
+			module.exports.searched_books = []
+		}
 	}, 
 	set_user_data: () => {
 		favorites_url = module.exports.get_user_book_type(0) 
 		reading_list_url = module.exports.get_user_book_type(2)
 		user.favorites = module.exports.query( undefined, favorites_url, "set user favorites data",true);
 		user.reading_list = module.exports.query(undefined, reading_list_url, "set user reading list data", true);
-		console.log("FAVORITES", user.favorites, "READING LIST", user.reading_list)
 	},
 	get_user_book_type: (mode) => {
 		return `https://www.googleapis.com/books/v1/mylibrary/bookshelves/${mode}/volumes?access_token=${global.session.get_token()}&key=${global.config.api_key}&maxResults=${module.exports.max_results}`

@@ -57,6 +57,17 @@
 	.book-info li:nth-child(n+1){
 		margin-top: 10px; 
 	}
+	a.fas{
+	   color: #000;
+	   text-decoration: none;
+	}
+	li.user-action{
+		display:inline-block;
+		font-size: 25px; 
+	}
+	li.user-action:nth-child(2n+2){
+		margin-left: 20px;
+	}
 </style>
 <div id="main">
 	<h1> Simplicity Book Reader</h1>
@@ -124,6 +135,9 @@
 				<li><span class="detail-label">Year Published: </span><%= book.publisherDate %></li>
 				<li><span class="detail-label">Publisher: </span><%= book.publisher %></li>
 				<li><%= book.description %></li>
+				<!-- User actions -->
+				<li class="user-action"><a href="/add_to_favorites" class="fas fa-heart" title="Add to Favorites"></a></li> 
+				<li class="user-action"><a href="/add_to_reading_list" class="fas fa-bookmark" title='Add to Reading List'></a></li>
 			</ul><!-- end book info -->
 			<div style="clear:both"></div>
 		  <% }) %><!-- end items.forEach -->

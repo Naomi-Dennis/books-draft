@@ -1,6 +1,7 @@
 <style>
 	#searched-results{
-		text-align: left; 
+		text-align: left;
+		font-size: 1.25em;
 	}
 	div#main{
 		margin: 0 auto;
@@ -20,7 +21,7 @@
 	}
 	img.book-cover{
 		width:20%; 
-		height: 250px; 
+		height: 10%; 
 		display: inline-block;
 		margin-top: 30px; 
 		margin-bottom: 96px;
@@ -68,6 +69,47 @@
 	li.user-action:nth-child(2n+2){
 		margin-left: 20px;
 	}
+
+	input[type="text"]{
+		width: 40%;
+		height: 25px
+	}
+
+	@media screen and (min-width: 200px) and (max-width: 540px) { 
+		img.book-cover{
+			display:block;
+			float:none;
+			width: 45%;
+			margin: 0 auto; 
+		}
+		.book-info{
+			display:block;
+			float: none;
+			height: unset;
+			margin: 0 auto;
+			margin-top: 20px; 
+		}
+		.book-info h3, .book-info h4, #searched-results{
+			text-align: center;
+		}
+	}
+
+	@media screen and (min-width: 541px) and (max-width: 950px){
+		.book-info{
+			height: unset;
+		}
+	}
+	#page-buttons{
+	   display:block;
+	   width: 905; 
+	}
+	#page-buttons #next{
+	   float:right; 
+	}
+	#page-buttons #previous{
+	   float: left;
+	}
+
 </style>
 <div id="main">
 	<h1> Simplicity Book Reader</h1>
@@ -95,9 +137,9 @@
 	    <h2>Book Search Form</h2>
 	    <div>
 	    <form action="/query_book", method="GET">
-	       <input name="book_title" size="50" placeholder="Title" >
+	       <input type="text" name="book_title" size="50" placeholder="Title" >
 	       <br/><br/>
-	       <input name="book_author" size="30" placeholder="Author">
+	       <input type="text" name="book_author" size="30" placeholder="Author">
 	       <br/><br/>
 	       <input type='submit' value="Find Books">
 	      </form>
@@ -113,13 +155,16 @@
 	      <br/>
 	      
 	      <!-- Next / Prev Buttons -->
+	      <div id="page-buttons">
 	      <% if( show_prev_page ){ %>
-	      	<a href="/prev_search_page" onClick="this.disabled=true;">Previous</a>
+	      	<a id="previous" href="/prev_search_page" onClick="this.disabled=true;">Previous</a>
 	      <% } %>
 	      <% if( show_next_page ){ %>
-	      	<a href="/next_search_page" >Next</a>
+	      	<a id="next" href="/next_search_page" >Next</a>
 	      <% } %>
-
+	      <div style="clear:both"></div>
+	      </div>
+		
 	      <!-- Search Results --> 
 	      <div id="searched-results">
 	      	  <% searched_books.forEach( (book) => { %> 

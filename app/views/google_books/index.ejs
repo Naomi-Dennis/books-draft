@@ -151,7 +151,7 @@
 		<h2>No Books Found</h2>         
 	   <% }else{ %>
 	      <h2><%= search_title %></h2> 
-	      <h4><%= `${total_results} Result(s) Found` %></h4>
+	      <h4><%= `${ total_results } Result(s) Found` %></h4>
 	      <br/>
 	      
 	      <!-- Next / Prev Buttons -->
@@ -183,7 +183,7 @@
 				<li class="user-action"><a class="fas fa-info-circle" target="_blank" href=<%= book.info_link %>></a></li>
 				<!-- User actions -->
 				<% if( !search_title.match(/Your|You're/) && logged_in ){ %>
-					<li class="user-action"><a href="/add_to_favorites" class="fas fa-heart" title="Add to Favorites"></a></li> 
+					<li class="user-action"><a href="/add_to_bookshelf/0?book=<%= book.id %>" class="fas fa-heart" title="Add to Favorites"></a></li> 
 					<li class="user-action"><a href="/add_to_reading_list" class="fas fa-bookmark" title='Add to Reading List'></a></li>
 				<% }else{ %>
 					

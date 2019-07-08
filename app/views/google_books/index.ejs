@@ -66,7 +66,7 @@
 		display:inline-block;
 		font-size: 25px; 
 	}
-	li.user-action:nth-child(2n+2){
+	li.user-action{
 		margin-left: 20px;
 	}
 
@@ -123,9 +123,9 @@
 				<li><a href="/user_action/3?bookshelf=Here's What You're Reading Now">Reading Now</a></li>
 				<li><a href="/user_action/2?bookshelf=You're Reading List">To Read List</a></li>
 				<li><a href="/user_action/4?bookshelf=Books You've Read">Have Read</a></li>
-				<li><a href="/user_action/6?booksehlf=Recently Viewed Books">Recently Viewed</a></li>
-				<li><a href="/user_action/1?Purchased Books">Purchased</a></li>
-				<li><a href="/user_action/5?Books You've Reviewed">Books Reviewed</a></li>
+				<li><a href="/user_action/6?bookshelf=You're Recently Viewed Books">Recently Viewed</a></li>
+				<li><a href="/user_action/1?bookshelf=Your Purchased Books">Purchased</a></li>
+				<li><a href="/user_action/5?bookshelf=Books You've Reviewed">Books Reviewed</a></li>
 			<% }else{ %>
 				<li><a href="/signin">Sign In</a></li>
 			<% } %>
@@ -180,9 +180,14 @@
 				<li><span class="detail-label">Year Published: </span><%= book.publisherDate %></li>
 				<li><span class="detail-label">Publisher: </span><%= book.publisher %></li>
 				<li><%= book.description %></li>
+				<li class="user-action"><a class="fas fa-info-circle" target="_blank" href=<%= book.info_link %>></a></li>
 				<!-- User actions -->
-				<li class="user-action"><a href="/add_to_favorites" class="fas fa-heart" title="Add to Favorites"></a></li> 
-				<li class="user-action"><a href="/add_to_reading_list" class="fas fa-bookmark" title='Add to Reading List'></a></li>
+				<% if( !search_title.match(/Your|You're/) && logged_in ){ %>
+					<li class="user-action"><a href="/add_to_favorites" class="fas fa-heart" title="Add to Favorites"></a></li> 
+					<li class="user-action"><a href="/add_to_reading_list" class="fas fa-bookmark" title='Add to Reading List'></a></li>
+				<% }else{ %>
+					
+				<% } %> 
 			</ul><!-- end book info -->
 			<div style="clear:both"></div>
 		  <% }) %><!-- end items.forEach -->

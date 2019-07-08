@@ -11,7 +11,7 @@ let express = require('express');
 let app = express();
 const bodyParser = require('body-parser');
 global.config = require("./config.js"); 
-global.config.set_to_test_mode();
+global.config.set_to_production_mode();
 global.session =  require('./app/helpers/session_helper.js'); 
 /*
  * Configure template engine 

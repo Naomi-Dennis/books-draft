@@ -35,7 +35,7 @@ let session_controller = require('./app/controllers/session_controller.js');
 app.get('/', google_books_controller.index); 
 app.get('/auth', session_controller.process_code); 
 app.get("/query_book", google_books_controller.search);
-app.get("/signout", google_books_controller.signout);
+app.get("/signout", session_controller.signout);
 app.get("/signin", session_controller.signin);
 app.get("/ebooks", google_books_controller.user_ebooks);
 app.get("/favorites", google_books_controller.favorites);

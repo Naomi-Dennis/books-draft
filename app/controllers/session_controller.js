@@ -2,6 +2,7 @@
  * Session Controller
  *
  * */
+let books_api = require('../helpers/query_helper.js');
 const axios = require('axios'); 
 module.exports = {
    process_code: (req, res) => {
@@ -24,6 +25,11 @@ module.exports = {
    signin: (req, res) => {
 		url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${global.config.client_id}&response_type=code&scope=${global.config.scope}&redirect_uri=${global.config.redirect_uri}`;
 		res.redirect(url)
+  },
+  signout: (req, res) => {
+	global.session.reset()
+	books_api.searched_books = []
+	res.redirect("/")
   },
    display_error: (error) => {
 	console.log(`*******Authentication error encountered***********\n${error.message}\nRefreshing Page...`)

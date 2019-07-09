@@ -40,8 +40,8 @@ module.exports = {
 	query_params.push(books_api.validate_query(title, "title"))
 	query_params.push(books_api.validate_query(author, "author"))
 
-	if(title){ module.exports.past_title_searches.push( title ); } 
-	if(author){ module.exports.past_author_searches.push( author); }
+	if(title && !module.exports.past_title_searches.includes(title) ){ module.exports.past_title_searches.push( title ); } 
+	if(author && !module.exports.past_author_searches.includes(author)){ module.exports.past_author_searches.push( author); }
         query = query_params.filter(String).join("&")
 	query = query.length > 0 ? `${query}&maxResults=${books_api.max_results}` : query
 	search_url = `https://www.googleapis.com/books/v1/volumes?q=${query}`

@@ -17,7 +17,7 @@ module.exports = {
 	   axios.get(query)
 	   .then( (response) => {
 		if(!return_searched_books){
-			module.exports.searched_books = []
+			module.exports.reset_page()
 			if( response.data.items ) {
 				module.exports.process_searched_books( response.data.items )
 			}
@@ -47,6 +47,20 @@ module.exports = {
 		})
 		.catch( (error) => {
 			console.log("Error adding to bookshelf: " + book_type, error.message)
+			res.redirect("/")
+		});
+
+	},
+	remove_from_bookshelf: (res, book, book_type, query_name) => {
+		url = `https://www.googleapis.com/books/v1/mylibrary/bookshelves/${book_type}/removeVolume?volumeId=${book}&key=${global.config.api_key}&access_token=${global.session.get_token()}`
+		console.log(url); 
+		axios.post(url)
+		.then( (response) => {
+			console.log("Removing Book from Bookshelf:" + book_type, "Sucessful"); 
+			res.redirect(`/user_action/${book_type}?bookshelf=${query_name}`)
+		})
+		.catch( (error) => {
+			console.log("Error removing from bookshelf: " + book_type, error.message)
 			res.redirect("/")
 		});
 

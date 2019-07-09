@@ -68,6 +68,9 @@ module.exports = {
   past_author_searches: []
  }//end module
 
+/*
+ * Private Variables & Functions
+ * */
 
 function check_logged_in(res, user_action, query_name){
 	console.log("LOGIN CHECK",global.session.is_logged_in(), global.session.get_token() == "")

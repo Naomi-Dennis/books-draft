@@ -1,22 +1,29 @@
+<!--
+	Main Layout View
+-->
+
+
 <!DOCTYPE html>
 <!--[if lte IE 6]><html class="preIE7 preIE8 preIE9"><![endif]-->
 <!--[if IE 7]><html class="preIE8 preIE9"><![endif]-->
 <!--[if IE 8]><html class="preIE9"><![endif]-->
-<!--[if gte IE 9]><!--><html><!--<![endif]-->
+<!--[if gte IE 9]><!-->
+<html><!--<![endif]-->
   <head>
     <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Simplicity Book Search</title>
   </head>
   <body>
-  <%- include(`${view_path}` + `.ejs`) %>
-<script src="https://kit.fontawesome.com/530baa9769.js"></script>	
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+	
+	<!-- EJS file to embedd into this file -->
+  	<%- include(`${view_path}` + `.ejs`) %>
+  	
+	
+	<!-- Font Awesome -->
+	<script src="https://kit.fontawesome.com/530baa9769.js"></script>	
+	<!-- jQuery -->
+  	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+  
   </body>
-</html>
-<html>
-<head>
-</head>
-
-
 </html>

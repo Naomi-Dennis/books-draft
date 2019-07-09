@@ -1,4 +1,22 @@
+/**
+ *
+ * Book Class
+ * @module book
+ * */
 class Book{
+	/** 
+	 * Parse volumeInfo into the following attributes:
+	 * 	- Title
+	 * 	- Subtitle
+	 * 	- Authors 
+	 * 	- Publisher
+	 * 	- Publisher Date
+	 * 	- Description
+	 * 	- Image (Book Cover) 
+	 * 	- Info Link (Link that leads to book profile on Google) 
+	 *
+	 * 	@param (JSON) {items: volumeInfo: { ... } }
+	 * */
 	constructor(item){
 		this.id = item.id
 		this.title = item.volumeInfo.title
@@ -11,5 +29,8 @@ class Book{
 		this.info_link = item.volumeInfo.infoLink
 	}
 }
-
+/** 
+ * Export the book class to a module
+ * 
+ * */
 module.exports = Book

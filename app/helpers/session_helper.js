@@ -1,3 +1,10 @@
+/**
+ * Session Helper
+ * ---------------------------
+ * Handles the authentication token for the authorized user
+ *
+ * @module session_helper
+ * */
 module.exports = {
 	get_token: () => {
 		return token 

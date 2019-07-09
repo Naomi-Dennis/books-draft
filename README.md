@@ -47,6 +47,8 @@ In routes.js set global.config to test mode.
 
 In the root folder, use `npm start`
 
+_Please note, your localhost must be http://localhost:3000_
+
 ## Built With
 
 * ExpressJS 

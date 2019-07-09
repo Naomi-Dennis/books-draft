@@ -65,9 +65,10 @@
 	li.user-action{
 		display:inline-block;
 		font-size: 25px; 
+		margin-left: 20px
 	}
-	li.user-action{
-		margin-left: 20px;
+	li.user-action:first-child{
+		margin-left: 0px;
 	}
 
 	input[type="text"]{
@@ -75,7 +76,7 @@
 		height: 25px
 	}
 
-	@media screen and (min-width: 200px) and (max-width: 540px) { 
+	@media screen and (min-width: 200px) and (max-width: 680px) { 
 		img.book-cover{
 			display:block;
 			float:none;
@@ -87,14 +88,23 @@
 			float: none;
 			height: unset;
 			margin: 0 auto;
-			margin-top: 20px; 
+			margin-top: 40px
 		}
-		.book-info h3, .book-info h4, #searched-results{
+		.book{
+			margin-top: 150px
+		}
+		.book h4, .book h3{
 			text-align: center;
 		}
+		.user-action-container{
+			margin-top: 40px;
+			width: 56%;
+			margin: 0 auto
+		}
+	
 	}
 
-	@media screen and (min-width: 541px) and (max-width: 950px){
+	@media screen and (min-width: 681px) and (max-width: 950px){
 		.book-info{
 			height: unset;
 		}
@@ -109,7 +119,7 @@
 	#page-buttons #previous{
 	   float: left;
 	}
-
+}
 </style>
 <div id="main">
 	<h1> Simplicity Book Reader</h1>
@@ -120,8 +130,7 @@
 				<li><a href="/signout">Sign Out</a></li>
 				<li><a href="/user_action/0?bookshelf=Your Favorite Books">Favorites</a></li>
 				<li><a href="/user_action/7?bookshelf=Your E-Books">Ebooks</a></li>
-				<li><a href="/user_action/3?bookshelf=Here's What You're Reading Now">Reading Now</a></li>
-				<li><a href="/user_action/2?bookshelf=You're Reading List">To Read List</a></li>
+				<li><a href="/user_action/2?bookshelf=You're Reading List">Reading List</a></li>
 				<li><a href="/user_action/4?bookshelf=Books You've Read">Have Read</a></li>
 				<li><a href="/user_action/6?bookshelf=You're Recently Viewed Books">Recently Viewed</a></li>
 				<li><a href="/user_action/1?bookshelf=Your Purchased Books">Purchased</a></li>
@@ -137,9 +146,23 @@
 	    <h2>Book Search Form</h2>
 	    <div>
 	    <form action="/query_book", method="GET">
-	       <input type="text" name="book_title" size="50" placeholder="Title" >
+	       <input type="text" name="book_title" list='book-title-past-input' size="50" placeholder="Title" >
+	       <datalist id="book-title-past-input">
+	          <% if( past_title_searches.length > 0){ %>
+			<% past_title_searches.forEach( (query) => { %>
+				<option value="<%= query %>" >
+			<% });  %> 
+		  <% } %>
+	       </datalist>
 	       <br/><br/>
-	       <input type="text" name="book_author" size="30" placeholder="Author">
+	       <input type="text" name="book_author" list='book-author-past-input' size="30" placeholder="Author">
+	       <datalist id='book-author-past-input'>
+	          <% if( past_author_searches.length > 0){ %>
+			<% past_author_searches.forEach( (query) => { %>
+				<option value="<%= query %>" >
+			<% });  %> 
+		  <% } %>
+	       </datalist>
 	       <br/><br/>
 	       <input type='submit' value="Find Books">
 	      </form>
@@ -151,7 +174,7 @@
 		<h2>No Books Found</h2>         
 	   <% }else{ %>
 	      <h2><%= search_title %></h2> 
-	      <h4><%= `${total_results} Result(s) Found` %></h4>
+	      <h4><%= `${ total_results } Result(s) Found` %></h4>
 	      <br/>
 	      
 	      <!-- Next / Prev Buttons -->
@@ -168,6 +191,7 @@
 	      <!-- Search Results --> 
 	      <div id="searched-results">
 	      	  <% searched_books.forEach( (book) => { %> 
+		    <div class="book">
 			<h3><%= book.title %></h3>
 
 			<% if( book.subtitle.length > 0){ %>
@@ -180,16 +204,26 @@
 				<li><span class="detail-label">Year Published: </span><%= book.publisherDate %></li>
 				<li><span class="detail-label">Publisher: </span><%= book.publisher %></li>
 				<li><%= book.description %></li>
+				<div class="user-action-container">
 				<li class="user-action"><a class="fas fa-info-circle" target="_blank" href=<%= book.info_link %>></a></li>
 				<!-- User actions -->
 				<% if( !search_title.match(/Your|You're/) && logged_in ){ %>
-					<li class="user-action"><a href="/add_to_favorites" class="fas fa-heart" title="Add to Favorites"></a></li> 
-					<li class="user-action"><a href="/add_to_reading_list" class="fas fa-bookmark" title='Add to Reading List'></a></li>
-				<% }else{ %>
-					
+					<li class="user-action"><a href="/add_to_bookshelf/0?book=<%= book.id %>" class="fas fa-heart" title="Add to Favorites"></a></li> 
+					<li class="user-action"><a href="/add_to_bookshelf/2?book=<%= book.id %>" class="fas fa-bookmark" title='Add to Reading List'></a></li>
+				<% }else if(logged_in){ %>
+					<!-- Favorites Remove Action -->
+					<% if( search_title.match(/Favorite/)){ %>
+						<li class="user-action"><a href="/remove_from_bookshelf/0?book=<%= book.id%>&bookshelf=<%= search_title %>" class="fas fa-trash-alt" title="Remove from Favorites"></a></li>
+					<% }else if(search_title.match(/Reading List/)){ %>
+					<!-- Reading List Remove Action -->
+						<li class="user-action"><a href="/remove_from_bookshelf/2?book=<%= book.id %>&bookshelf=<%= search_title %>" class="fas fa-trash-alt" title="Remove from Favorites"></a></li>
+
+					<% } %><!-- End Favorites & Reading List If statement -->
 				<% } %> 
+				</div><!-- End user action container -->
 			</ul><!-- end book info -->
 			<div style="clear:both"></div>
+			</div>
 		  <% }) %><!-- end items.forEach -->
 	      </div>
 	   <% } %><!-- end serached_books.length > 0 if statement -->

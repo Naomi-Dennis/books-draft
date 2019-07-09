@@ -9,6 +9,7 @@
  * */
 let express = require('express');
 let app = express();
+let session = require('express-session');
 const bodyParser = require('body-parser');
 global.config = require("./config.js"); 
 global.config.set_to_production_mode();
@@ -40,8 +41,8 @@ app.get("/signin", session_controller.signin);
 app.get("/next_search_page", google_books_controller.next_search_page);
 app.get("/prev_search_page", google_books_controller.prev_search_page);
 app.get('/user_action/:id', google_books_controller.user_action);
-app.use(bodyParser.urlencoded({ extended: true }));
-
+app.get("/add_to_bookshelf/:id", google_books_controller.add_to_bookshelf);
+app.get("/remove_from_bookshelf/:id", google_books_controller.remove_from_bookshelf);
 
 
 

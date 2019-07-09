@@ -12,8 +12,11 @@ module.exports = {
 		search_title: books_api.search_title,
 		show_next_page: books_api.current_page < Math.floor(books_api.total_results / books_api.max_results) && books_api.total_results > books_api.max_results,
 		show_prev_page: books_api.current_page > 0,
-		total_results: books_api.total_results
+		total_results: books_api.total_results,
+		past_title_searches: module.exports.past_title_searches.slice(-5),
+		past_author_searches: module.exports.past_author_searches.slice(-5)
 	}
+	   console.log("SEARCH TITLE", books_api.search_title)
 	res.render('layout', view_params); 
  },
   next_search_page: (req, res) =>{
@@ -31,11 +34,14 @@ module.exports = {
 	regex_test = /[A-z0-9']/g
 	title =  (data.book_title || "") 
 	author = (data.book_author || "") 
-
+        
 	query = ""
 	query_params = []
 	query_params.push(books_api.validate_query(title, "title"))
 	query_params.push(books_api.validate_query(author, "author"))
+
+	if(title){ module.exports.past_title_searches.push( title ); } 
+	if(author){ module.exports.past_author_searches.push( author); }
         query = query_params.filter(String).join("&")
 	query = query.length > 0 ? `${query}&maxResults=${books_api.max_results}` : query
 	search_url = `https://www.googleapis.com/books/v1/volumes?q=${query}`
@@ -45,7 +51,21 @@ module.exports = {
 	action_id = req.params.id 
 	bookshelf = req.query.bookshelf
 	check_logged_in(res, action_id, bookshelf)
-  }
+  },
+  add_to_bookshelf: (req, res) => {
+	action_id = req.params.id 
+	book = req.query.book
+	books_api.add_to_bookshelf(res, book, action_id) 
+
+  },
+  remove_from_bookshelf: (req, res) => {
+	action_id = req.params.id 
+	book = req.query.book
+	bookshelf = req.query.bookshelf
+	books_api.remove_from_bookshelf(res, book, action_id, bookshelf)
+  },
+  past_title_searches: [],
+  past_author_searches: []
  }//end module
 
 

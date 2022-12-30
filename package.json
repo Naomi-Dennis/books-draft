@@ -28,6 +28,6 @@
     "sinon": "^7.3.2"
   },
   "devDependencies": {
-    "mocha": "^6.1.4"
+    "mocha": "^10.2.0"
   }
 }
